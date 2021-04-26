@@ -21,3 +21,6 @@
   $ yarn dev
 ```
 
+- Acessar página do chat
+  - http://localhost:3000/pages/client
+

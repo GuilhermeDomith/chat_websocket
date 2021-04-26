@@ -1,8 +1,12 @@
 {
   "type": "mysql",
-  "migrations": ["./src/database/migrations/**.ts"],
-  "entities": ["./src/entities/**.ts"],
-  "cli":{
+  "migrations": [
+    "./src/database/migrations/**.ts"
+  ],
+  "entities": [
+    "./src/entities/**.ts"
+  ],
+  "cli": {
     "migrationsDir": "./src/database/migrations"
   },
   "host": "localhost",
