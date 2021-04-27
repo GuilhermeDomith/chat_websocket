@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+  UpdateDateColumn
+} from "typeorm";
 import { v4 as uuid } from "uuid";
 import { User } from "./User";
 
@@ -8,17 +16,17 @@ class Message {
 
   @PrimaryColumn()
   id: string;
-  
-  @Column({name: "admin_id"})
+
+  @Column({ name: "admin_id" })
   adminId: string;
 
   @Column()
   text: string;
 
-  @Column({name: "user_id"})
+  @Column({ name: "user_id" })
   userId: string;
 
-  @CreateDateColumn({name: "created_at"})
+  @CreateDateColumn({ name: "created_at" })
   createdAt: Date;
 
   @JoinColumn({ name: "user_id" })
@@ -26,7 +34,7 @@ class Message {
   user: User;
 
   constructor() {
-    if(!this.id) {
+    if (!this.id) {
       this.id = uuid();
     }
   }
