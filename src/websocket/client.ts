@@ -18,7 +18,6 @@ io.on("connect", (socket: Socket) => {
     const socketId = socket.id;
     const { text, email } = params as IParams;
     let userId = null;
-    console.log(params);
 
     let userExists = await usersService.findByEmail(email);
 
@@ -42,6 +41,26 @@ io.on("connect", (socket: Socket) => {
     await messagesService.create({
       text,
       userId
+    })
+
+    const messages = await messagesService.listByUser(userId);
+    socket.emit("client_list_all_messages", messages);
+  });
+
+  socket.on("client_send_to_admin", async params => {
+    const { text, socketAdminId } = params;
+    const socketId = socket.id;
+
+    const { userId } = await connectionsService.findBySockedId(socketId);
+
+    const message = await messagesService.create({
+      text,
+      userId
+    });
+
+    io.to(socketAdminId).emit("admin_receive_message", {
+      message,
+      socketId
     })
   });
 
