@@ -26,7 +26,10 @@ class MessagesService {
   }
 
   async listByUser(userId: string) {
-    const list = await this.messagesRepo.find({ userId });
+    const list = await this.messagesRepo.createQueryBuilder("messages")
+      .where("user_id = :userId", { userId })
+      .orderBy("created_at")
+      .getMany();
     return list;
   }
 }
