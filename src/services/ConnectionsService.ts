@@ -9,6 +9,11 @@ interface IConnectionCreate {
   id?: string,
 }
 
+interface IUpdateAdminId {
+  userId: string,
+  adminId: string
+}
+
 class ConnectionsService {
   private connectionsRepo: Repository<Connection>;
 
@@ -31,6 +36,32 @@ class ConnectionsService {
     });
 
     return connection;
+  }
+
+  async findAllWithoutAdmin(): Promise<Connection[]> {
+    const connections = await this.connectionsRepo.find({
+      where: { adminId: null },
+      relations: ["user"]
+    })
+
+    return connections;
+  }
+
+  async findBySockedId(socketId: string): Promise<Connection> {
+    const connection = await this.connectionsRepo.findOne({
+      socketId
+    });
+
+    return connection;
+  }
+
+  async updateAdminId({ userId, adminId }: IUpdateAdminId) {
+    await this.connectionsRepo
+      .createQueryBuilder()
+      .update(Connection)
+      .set({ adminId })
+      .where("user_id = :userId", { userId })
+      .execute();
   }
 }
 
