@@ -26,7 +26,6 @@ class UsersService {
   }
 
   async findByEmail(email: string): Promise<User> {
-    console.log(email)
     try {
       const user = await this.usersRepo.findOne({ email });
       return user;
